@@ -58,7 +58,7 @@ impl Ast {
           _ => Some(Nodes::OpenBracket),
         },
         Tokens::CloseBracket => match self.nodes.last() {
-          Some(Nodes::CloseBracket) => Some(Nodes::CloseBracket),
+          Some(Nodes::CloseBracket) => Some(Nodes::CloseBrackets(2)),
           Some(Nodes::CloseBrackets(value)) => Some(Nodes::CloseBrackets(value + 1)),
           _ => Some(Nodes::CloseBracket),
         },
