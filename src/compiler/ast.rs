@@ -22,25 +22,22 @@ impl Ast {
   pub fn parse(&mut self, tokens: &Vec<Tokens>) -> &Vec<Nodes> {
     for (_i, word) in tokens.iter().enumerate() {
       if let Some(nodes) = match word {
-        Tokens::Dot => {
-          if self.nodes.is_empty() {
-            Some(Nodes::Dot)
-          } else if self.nodes[self.nodes.len() - 1] == Nodes::Dot {
-            Some(Nodes::Dots(2))
-          } else if matches!(self.nodes[self.nodes.len() - 1], Nodes::Dots(_)) {
-            if let Some(Nodes::Dots(value)) = self.nodes.last() {
-              Some(Nodes::Dots(value + 1))
-            } else {
-              panic!("Expected value inside of Nodes::Dots")
-            }
-          } else {
-            Some(Nodes::Dot)
-          }
+        Tokens::Plus => match self.nodes.last() {
+          None => Some(Nodes::Plus),
+          Some(Nodes::Plus) => Some(Nodes::Pluses(2)),
+          Some(Nodes::Pluses(value)) => Some(Nodes::Pluses(value + 1)),
+          _ => Some(Nodes::Plus),
+        },
+        Tokens::Dot => match self.nodes.last() {
+          None => Some(Nodes::Dot),
+          Some(Nodes::Dot) => Some(Nodes::Dots(2)),
+          Some(Nodes::Dots(value)) => Some(Nodes::Dots(value + 1)),
+          _ => Some(Nodes::Dot),
         },
         _ => Some(Nodes::No),
       } {
         let index = self.nodes.len();
-        if matches!(nodes, Nodes::Dots(_)) {
+        if matches!(nodes, Nodes::Dots(_)) || matches!(nodes, Nodes::Pluses(_)) {
           self.nodes[index - 1] = nodes;
         } else {
           self.nodes.push(nodes);
