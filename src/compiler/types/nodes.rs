@@ -1,5 +1,6 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum Nodes {
-  Nice,
+  Dot,
+  Dots(u64),
   No,
 }
