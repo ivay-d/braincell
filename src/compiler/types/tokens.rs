@@ -1,6 +1,6 @@
 use crate::types::Char;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Tokens {
   Plus,
   Minus,

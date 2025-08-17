@@ -20,7 +20,7 @@ impl Lexer {
   }
 
   pub fn tokenize(&mut self, code: String) -> &Vec<Tokens> {
-    for (i, word) in code.chars().enumerate() {
+    for (_i, word) in code.chars().enumerate() {
       if let Some(tokens) = match word {
         '+' => Some(Tokens::Plus),
         '-' => Some(Tokens::Minus),

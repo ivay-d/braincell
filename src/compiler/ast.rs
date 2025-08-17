@@ -20,7 +20,7 @@ impl Ast {
   }
 
   pub fn parse(&mut self, tokens: &Vec<Tokens>) -> &Vec<Nodes> {
-    for (i, word) in tokens.iter().enumerate() {
+    for (_i, word) in tokens.iter().enumerate() {
       if let Some(nodes) = match word {
         Tokens::Dot => Some(Nodes::Nice),
         _ => Some(Nodes::No),

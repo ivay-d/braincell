@@ -4,7 +4,7 @@ fn main() {
   let mut lexer = Lexer::new();
   let tokens = lexer.tokenize(".+".to_string());
   let mut ast = Ast::new();
-  let nodes = ast.parse(tokens);
+  let _ = ast.parse(tokens);
   println!("{lexer}\n");
   println!("{ast}");
 }
