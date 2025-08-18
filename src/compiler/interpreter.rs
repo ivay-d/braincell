@@ -5,7 +5,7 @@ use std::fmt::{Display, Formatter, Result as Res};
 pub struct Interpreter {
   cell_limit: u128,
   current_cell: u128,
-  cell_values: Vec<u128>,
+  cell_values: Vec<u8>,
 }
 
 impl Display for Interpreter {
@@ -36,10 +36,9 @@ impl Interpreter {
   }
 
   pub fn run(&mut self, nodes: &Vec<Nodes>) -> Result<(), String>{
-    self.cell_values = Vec::new();
+    self.cell_values = vec![0];
     self.current_cell = 0;
 
-    self.cell_values.push(0);
     for word in nodes.iter() {
       match word {
         Nodes::MoveRight => {

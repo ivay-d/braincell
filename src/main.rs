@@ -34,7 +34,7 @@ fn main() {
   let tokens = lexer.tokenize(">>>".to_string());
   let _ = ast.parse(tokens);
   let mut interpreter = Interpreter::new(30000);
-  let _ = match interpreter.run(&vec![Nodes::MoveRights(30001)]) {
+  let _ = match interpreter.run(&vec![Nodes::MoveRights(3)]) {
     Ok (_) => {
       println!("{lexer}\n");
       println!("{ast}\n");
