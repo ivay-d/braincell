@@ -22,20 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-use braincell::{Ast, Lexer, Interpreter};
+use braincell::{Ast, Lexer, Interpreter, types::Nodes};
 
 fn main() {
   let mut lexer = Lexer::new();
   let tokens = lexer.tokenize("+ ++ +++ - -- --- > >> >>> < << <<< , ,, ,,, . .. ... [ [[ [[[ ] ]] ]]]".to_string());
   let mut ast = Ast::new();
-  let nodes = ast.parse(tokens);
+  let _ = ast.parse(tokens);
   println!("{lexer}\n");
   println!("{ast}\n");
   let tokens = lexer.tokenize(">>>".to_string());
-  let nodes = ast.parse(tokens);
+  let _ = ast.parse(tokens);
   let mut interpreter = Interpreter::new(30000);
-  let _ = interpreter.run(nodes);
-  println!("{lexer}\n");
-  println!("{ast}\n");
-  println!("{interpreter}");
+  let _ = match interpreter.run(&vec![Nodes::MoveRights(30001)]) {
+    Ok (_) => {
+      println!("{lexer}\n");
+      println!("{ast}\n");
+      println!("{interpreter}");
+    },
+    Err(e) => println!("{e}"),
+  };
 }

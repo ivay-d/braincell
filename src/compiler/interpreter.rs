@@ -1,5 +1,5 @@
 use crate::types::Nodes;
-use std::fmt::{Display, Formatter, Result};
+use std::fmt::{Display, Formatter, Result as Res};
 
 #[derive(Clone)]
 pub struct Interpreter {
@@ -9,7 +9,7 @@ pub struct Interpreter {
 }
 
 impl Display for Interpreter {
-  fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+  fn fmt(&self, f: &mut Formatter<'_>) -> Res {
     write!(f, "{:?}", self.cell_values)
   }
 }
@@ -27,16 +27,36 @@ impl Interpreter {
     self.cell_limit = new_limit;
   }
 
-  pub fn run(&mut self, nodes: &Vec<Nodes>) {
+  pub fn check_limit(&self) -> Result<(), String> {
+    if self.current_cell >= self.cell_limit {
+      Err(format!("OutOfBounds: The limit of {} cells has been reached and cannot be exceeded.", self.cell_limit))
+    } else {
+      Ok(())
+    }
+  }
+
+  pub fn run(&mut self, nodes: &Vec<Nodes>) -> Result<(), String>{
+    self.cell_values = Vec::new();
+    self.current_cell = 0;
+
     self.cell_values.push(0);
     for word in nodes.iter() {
       match word {
-        Nodes::MoveRight => self.cell_values.push(0),
-        Nodes::MoveRights(value) => for _ in 0..*value {
-          self.cell_values.push(0);
+        Nodes::MoveRight => {
+         self.check_limit()?;
+         self.current_cell += 1;
+         self.cell_values.push(0);
+        },
+        Nodes::MoveRights(value) => {
+          for _ in 0..*value {
+            self.check_limit()?;
+            self.current_cell += 1;
+            self.cell_values.push(0);
+          }
         },
         _ => self.cell_values.push(0),
       }
     }
+    Ok(())
   }
 }
