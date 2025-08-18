@@ -20,6 +20,7 @@ impl Ast {
   }
 
   pub fn parse(&mut self, tokens: &Vec<Tokens>) -> &Vec<Nodes> {
+    self.nodes = Vec::new();
     for word in tokens.iter() {
       if let Some(nodes) = match word {
         Tokens::Plus => match self.nodes.last() {
